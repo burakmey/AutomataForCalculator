@@ -50,7 +50,7 @@ namespace AutomataForCalculator
         }
         void ButtonClick(object sender, EventArgs e)
         {
-
+            int test;
         }
     }
 }
