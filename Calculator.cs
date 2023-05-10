@@ -103,7 +103,25 @@ namespace AutomataForCalculator
             }
             inputTextBox.Text = inputResult;
             inputTextBox.SelectionStart = inputTextBox.Text.Length;
-            topLabel.Text = $"IsFinal = {RunDFA()}";
+            string correctness;
+            if (RunDFA())
+            {
+                correctness = "Correct";
+                topLabel.ForeColor = Color.Green;
+            }
+            else
+            {
+                correctness = "Incorrect";
+                topLabel.ForeColor = Color.Red;
+            }
+            if (inputResult.Length == 0)
+            {
+                topLabel.Text = "";
+            }
+            else
+            {
+                topLabel.Text = $"{correctness} syntax";
+            }
         }
         bool RunDFA()
         {
