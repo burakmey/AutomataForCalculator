@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AutomataForCalculator
@@ -26,28 +20,42 @@ namespace AutomataForCalculator
                                         "+/-", "", ".", "=" };
         static int buttonCount = 24;
         static string inputResult = "";
-        Point startingLocation = new Point(5, 110);
-        Size buttonSize = new Size(80, 50);
+        static int spaceBetweenButtons = 5;
+        Size minFormSize = new Size(361, 459);
+        Size minButtonPanelSize = new Size(335, 385);
+        Size minButtonSize = new Size(80, 50);
         Button[] buttons = new Button[buttonCount];
-        static DFAModel dfa;
+        Panel buttonsPanel;
+        DFAModel dfa;
         public Calculator()
         {
             InitializeComponent();
+            //Create buttons panel
+            buttonsPanel = new Panel
+            {
+                Location = new Point(5, 90),
+                Name = "buttonPanel",
+                Size = minButtonPanelSize,
+                TabIndex = 2,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
+            };
+            Controls.Add(buttonsPanel);
+            //Create buttons
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i] = new Button();
                 buttons[i].Name = buttonNames[i];
                 buttons[i].Text = buttonTexts[i];
-                buttons[i].Location = new Point(startingLocation.X + (i % 4) * (buttonSize.Width + startingLocation.X),
-                    startingLocation.Y + (i / 4) * (buttonSize.Height + startingLocation.X));
-                buttons[i].Size = buttonSize;
+                buttons[i].Location = new Point((i % 4) * (minButtonSize.Width + spaceBetweenButtons), (i / 4) * (minButtonSize.Height + spaceBetweenButtons));
+                buttons[i].Size = minButtonSize;
                 buttons[i].FlatStyle = FlatStyle.Flat;
                 buttons[i].FlatAppearance.BorderSize = 1;
                 buttons[i].FlatAppearance.BorderColor = SystemColors.ActiveBorder;
                 buttons[i].BackColor = SystemColors.ControlLightLight;
+                buttons[i].Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(162)));
                 buttons[i].TabStop = false;
                 buttons[i].Click += new EventHandler(ButtonClick);
-                Controls.Add(buttons[i]);
+                buttonsPanel.Controls.Add(buttons[i]);
             }
             //Useless buttons
             buttons[0].Enabled = false;
@@ -136,6 +144,21 @@ namespace AutomataForCalculator
                     return dfa.IsFinal;
             }
             return dfa.IsFinal;
+        }
+        void CalculatorResize(object sender, EventArgs e)
+        {
+            Width -= (Width - minFormSize.Width) % 4;
+            Height -= (Height - minFormSize.Height) % 6;
+            ButtonsPanelResize((Width - minFormSize.Width) / 4, (Height - minFormSize.Height) / 6);
+        }
+        //w and h represent how many pixels each button will extend.
+        void ButtonsPanelResize(int w, int h)
+        {
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                buttons[i].Location = new Point((i % 4) * (minButtonSize.Width + spaceBetweenButtons + w), (i / 4) * (minButtonSize.Height + spaceBetweenButtons + h));
+                buttons[i].Size = new Size(minButtonSize.Width + w, minButtonSize.Height + h);
+            }
         }
     }
 }

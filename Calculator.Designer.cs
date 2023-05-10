@@ -61,11 +61,13 @@ namespace AutomataForCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 440);
+            this.ClientSize = new System.Drawing.Size(345, 420);
             this.Controls.Add(this.inputTextBox);
             this.Controls.Add(this.topLabel);
+            this.MinimumSize = new System.Drawing.Size(361, 459);
             this.Name = "Calculator";
             this.Text = "Calculator";
+            this.Resize += new System.EventHandler(this.CalculatorResize);
             this.ResumeLayout(false);
             this.PerformLayout();
 
