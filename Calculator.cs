@@ -29,6 +29,7 @@ namespace AutomataForCalculator
         Point startingLocation = new Point(5, 110);
         Size buttonSize = new Size(80, 50);
         Button[] buttons = new Button[buttonCount];
+        static DFAModel dfa;
         public Calculator()
         {
             InitializeComponent();
@@ -52,6 +53,8 @@ namespace AutomataForCalculator
             buttons[0].Enabled = false;
             buttons[1].Enabled = false;
             buttons[21].Enabled = false;
+            //Create DFA
+            dfa = new DFAModel();
         }
         void ButtonClick(object sender, EventArgs e)
         {
@@ -60,14 +63,14 @@ namespace AutomataForCalculator
             if (button.Text == "C")
             {
                 inputResult = "";
-                inputTextBox.Text = "0";
-                return;
             }
             else if (button.Text == "<-")
             {
                 if (inputResult == "")
-                    return;
-                if (inputResult[inputResult.Length - 1] == ' ')
+                {
+                    //Do nothing
+                }
+                else if (inputResult[inputResult.Length - 1] == ' ')
                 {
                     inputResult = inputResult.Remove(inputResult.Length - 3, 3);
                 }
@@ -75,17 +78,10 @@ namespace AutomataForCalculator
                 {
                     inputResult = inputResult.Remove(inputResult.Length - 1);
                 }
-                if (inputResult == "")
-                {
-                    inputTextBox.Text = "0";
-                    return;
-                }
             }
             else if (button.Text == "+/-")
             {
-                if (inputResult == "")
-                    return;
-                if (inputResult[inputResult.Length - 1] == '-')
+                if (inputResult.Length - 1 >= 0 && inputResult[inputResult.Length - 1] == '-')
                 {
                     inputResult = inputResult.Remove(inputResult.Length - 1);
                 }
@@ -97,7 +93,9 @@ namespace AutomataForCalculator
             else if (button.Text == "=")
             {
                 if (inputResult == "")
-                    return;
+                {
+
+                }
             }
             else
             {
@@ -105,6 +103,21 @@ namespace AutomataForCalculator
             }
             inputTextBox.Text = inputResult;
             inputTextBox.SelectionStart = inputTextBox.Text.Length;
+            topLabel.Text = $"IsFinal = {RunDFA()}";
+        }
+        bool RunDFA()
+        {
+            char c;
+            dfa.SetStartState();
+            for (int i = 0; i < inputResult.Length; i++)
+            {
+                c = inputResult[i];
+                if (c == ' ')
+                    continue;
+                if (dfa.State(c) == -1)
+                    return dfa.IsFinal;
+            }
+            return dfa.IsFinal;
         }
     }
 }

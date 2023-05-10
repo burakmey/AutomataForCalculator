@@ -44,7 +44,7 @@ namespace AutomataForCalculator
             this.inputTextBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.inputTextBox.Size = new System.Drawing.Size(345, 45);
             this.inputTextBox.TabIndex = 1;
-            this.inputTextBox.Text = "0";
+            this.inputTextBox.Text = "";
             this.inputTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // topLabel
