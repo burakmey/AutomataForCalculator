@@ -278,7 +278,7 @@ namespace AutomataForCalculator
                 case 21: //***************************************************************************************
                     if (operators.Contains(c))
                     {
-                        currentState = 0;
+                        currentState = 5;
                         break;
                     }
                     else { currentState = -1; break; }
