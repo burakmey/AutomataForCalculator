@@ -53,6 +53,7 @@
       <DependentUpon>Calculator.cs</DependentUpon>
     </Compile>
     <Compile Include="DFAModel.cs" />
+    <Compile Include="InfixToPostfix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Calculator.resx">

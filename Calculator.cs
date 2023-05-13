@@ -100,9 +100,10 @@ namespace AutomataForCalculator
             }
             else if (button.Text == "=")
             {
-                if (inputResult == "")
+                if (dfa.IsFinal)
                 {
-
+                    string result = InfixToPostfix.Convert(inputResult);
+                    inputResult = result.Replace(',', '.');
                 }
             }
             else
@@ -147,6 +148,7 @@ namespace AutomataForCalculator
         }
         void CalculatorResize(object sender, EventArgs e)
         {
+            //4 button for horizontal, 6 button for vertical.
             Width -= (Width - minFormSize.Width) % 4;
             Height -= (Height - minFormSize.Height) % 6;
             ButtonsPanelResize((Width - minFormSize.Width) / 4, (Height - minFormSize.Height) / 6);
